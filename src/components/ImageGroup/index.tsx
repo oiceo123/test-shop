@@ -60,6 +60,7 @@ const ImageGroupComponent: React.FC<Props> = ({ images }) => {
                   : ""
               }
               onClick={() => handleSelect(index + startIndex)}
+              onKeyDown={() => handleSelect(index + startIndex)}
             />
           ))}
         </div>

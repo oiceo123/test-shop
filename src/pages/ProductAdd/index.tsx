@@ -29,8 +29,9 @@ const ProductAdd: React.FC = () => {
     }
   };
 
-  const onFinish: FormProps["onFinish"] = async (values) => {
-    const payload = { ...values };
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
+  // @ts-ignore
+  const addProduct = async (payload) => {
     try {
       const res = await axios.post("/products/add", payload);
       setAddedProducts([...addedProducts, res.data]);
@@ -41,6 +42,11 @@ const ProductAdd: React.FC = () => {
     } catch (error) {
       console.error("error", error);
     }
+  };
+
+  const onFinish: FormProps["onFinish"] = (values) => {
+    const payload = { ...values };
+    addProduct(payload);
   };
 
   return (
@@ -112,8 +118,8 @@ const ProductAdd: React.FC = () => {
                   >
                     <Select placeholder="กรุณาเลือกหมวดหมู่">
                       {categories &&
-                        categories.map((category) => (
-                          <Select.Option value={category}>
+                        categories.map((category, index) => (
+                          <Select.Option value={category} key={index}>
                             {category}
                           </Select.Option>
                         ))}

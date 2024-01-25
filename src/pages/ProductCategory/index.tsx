@@ -15,7 +15,7 @@ const ProductCategory: React.FC = () => {
   const location = useLocation();
   const { category } = useParams<{ category: string }>();
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsLoading, setProductLoading] = useState<boolean>(true);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
 
   const query = useQuery();
   const [total, setTotal] = useState<number>(0);
@@ -29,7 +29,7 @@ const ProductCategory: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setProductLoading(true);
+    setProductsLoading(true);
     fetchProductsByCategory();
   }, [skip]);
 
@@ -40,7 +40,7 @@ const ProductCategory: React.FC = () => {
       );
       setProducts(res.data.products);
       setTotal(res.data.total);
-      setProductLoading(false);
+      setProductsLoading(false);
     } catch (error) {
       console.error("error", error);
     }
@@ -58,13 +58,19 @@ const ProductCategory: React.FC = () => {
     }
   };
 
-  const handleEdit = (event: React.MouseEvent, id: number) => {
+  const handleEdit = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    id: number
+  ) => {
     event.preventDefault();
     event.stopPropagation();
     history.push(`/products/edit/${id}`);
   };
 
-  const handleDelete = (event: React.MouseEvent, id: number) => {
+  const handleDelete = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    id: number
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -105,11 +111,11 @@ const ProductCategory: React.FC = () => {
   return (
     <Row justify="center">
       <Col span={22}>
-        {products && products.length ? (
+        {products && products.length > 0 ? (
           <>
             <Row gutter={[16, 16]}>
               {products.map((product) => (
-                <Col span={4}>
+                <Col span={4} key={product.id}>
                   <Link to={`/products/${product.id}`}>
                     <CardComponent
                       cover={product.thumbnail || ""}
@@ -120,11 +126,17 @@ const ProductCategory: React.FC = () => {
                           onClick={(event) => {
                             handleEdit(event, product.id);
                           }}
+                          onKeyDown={(event) => {
+                            handleEdit(event, product.id);
+                          }}
                         >
                           <EditOutlined />
                         </div>,
                         <div
                           onClick={(event) => {
+                            handleDelete(event, product.id);
+                          }}
+                          onKeyDown={(event) => {
                             handleDelete(event, product.id);
                           }}
                         >

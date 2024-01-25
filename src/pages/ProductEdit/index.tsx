@@ -51,8 +51,9 @@ const ProductEdit: React.FC = () => {
     }
   };
 
-  const onFinish: FormProps["onFinish"] = async (values) => {
-    const payload = { ...values };
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
+  // @ts-ignore
+  const editProduct = async (payload) => {
     try {
       const res = await axios.put(
         `https://dummyjson.com/products/${id}`,
@@ -66,6 +67,11 @@ const ProductEdit: React.FC = () => {
     } catch (error) {
       console.error("error", error);
     }
+  };
+
+  const onFinish: FormProps["onFinish"] = (values) => {
+    const payload = { ...values };
+    editProduct(payload);
   };
 
   return (
@@ -137,8 +143,8 @@ const ProductEdit: React.FC = () => {
                   >
                     <Select placeholder="กรุณาเลือกหมวดหมู่">
                       {categories &&
-                        categories.map((category) => (
-                          <Select.Option value={category}>
+                        categories.map((category, index) => (
+                          <Select.Option value={category} key={index}>
                             {category}
                           </Select.Option>
                         ))}

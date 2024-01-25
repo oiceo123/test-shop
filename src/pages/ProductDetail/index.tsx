@@ -82,21 +82,21 @@ const ProductDetail: React.FC = () => {
                   />
                 </div>
                 <div className="web-pages-productDetail-price">
-                  {product?.price && product.discountPercentage && (
+                  {product?.price && product?.discountPercentage > 0 && (
                     <span className="web-pages-productDetail-price-before-discount">
                       &#3647; {product?.price}
                     </span>
                   )}
                   <span className="web-pages-productDetail-price-after-discount">
                     &#3647;
-                    {product?.price && product.discountPercentage
+                    {product?.price && product?.discountPercentage > 0
                       ? Math.ceil(
                           product?.price *
                             (1 - product?.discountPercentage / 100)
                         )
                       : product?.price}
                   </span>
-                  {product?.discountPercentage && (
+                  {product && product?.discountPercentage > 0 && (
                     <span className="web-pages-productDetail-price-discount">
                       {product?.discountPercentage}% ส่วนลด
                     </span>

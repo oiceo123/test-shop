@@ -15,7 +15,7 @@ const ProductSearch: React.FC = () => {
   const history = useHistory();
   const search = query.get("q");
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsLoading, setProductLoading] = useState<boolean>(true);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
 
   const [total, setTotal] = useState<number>(0);
   const [limit, setLimit] = useState<number>(30);
@@ -24,7 +24,7 @@ const ProductSearch: React.FC = () => {
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    setProductLoading(true);
+    setProductsLoading(true);
     fetchProductBySearchParam();
   }, [search, skip]);
 
@@ -35,7 +35,7 @@ const ProductSearch: React.FC = () => {
       );
       setProducts(res.data.products);
       setTotal(res.data.total);
-      setProductLoading(false);
+      setProductsLoading(false);
     } catch (error) {
       console.error("error", error);
     }
@@ -53,13 +53,19 @@ const ProductSearch: React.FC = () => {
     }
   };
 
-  const handleEdit = (event: React.MouseEvent, id: number) => {
+  const handleEdit = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    id: number
+  ) => {
     event.preventDefault();
     event.stopPropagation();
     history.push(`/products/edit/${id}`);
   };
 
-  const handleDelete = (event: React.MouseEvent, id: number) => {
+  const handleDelete = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    id: number
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -102,11 +108,11 @@ const ProductSearch: React.FC = () => {
   return (
     <Row justify="center">
       <Col span={22}>
-        {products && products.length ? (
+        {products && products.length > 0 ? (
           <>
             <Row gutter={[16, 16]}>
               {products.map((product) => (
-                <Col span={4}>
+                <Col span={4} key={product.id}>
                   <Link to={`/products/${product.id}`}>
                     <CardComponent
                       cover={product.thumbnail || ""}
@@ -117,11 +123,17 @@ const ProductSearch: React.FC = () => {
                           onClick={(event) => {
                             handleEdit(event, product.id);
                           }}
+                          onKeyDown={(event) => {
+                            handleEdit(event, product.id);
+                          }}
                         >
                           <EditOutlined />
                         </div>,
                         <div
                           onClick={(event) => {
+                            handleDelete(event, product.id);
+                          }}
+                          onKeyDown={(event) => {
                             handleDelete(event, product.id);
                           }}
                         >

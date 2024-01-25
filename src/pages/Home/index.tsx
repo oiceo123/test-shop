@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsLoading, setProductLoading] = useState<boolean>(true);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
   const [categories, setCategories] = useState<string[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
   const { addedProducts } = useContext(AddedProductsContext);
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setProductLoading(true);
+    setProductsLoading(true);
     fetchProducts();
   }, [skip]);
 
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
     try {
       const res = await axios.get(`/products?limit=${limit}&skip=${skip}`);
       setProducts([...res.data.products, ...addedProducts]);
-      setProductLoading(false);
+      setProductsLoading(false);
       setTotal(res.data.total);
     } catch (error) {
       console.error("error", error);
@@ -71,13 +71,19 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleEdit = (event: React.MouseEvent, id: number) => {
+  const handleEdit = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    id: number
+  ) => {
     event.preventDefault();
     event.stopPropagation();
     history.push(`/products/edit/${id}`);
   };
 
-  const handleDelete = (event: React.MouseEvent, id: number) => {
+  const handleDelete = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    id: number
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -123,11 +129,11 @@ const Home: React.FC = () => {
             <CategoryComponent categories={categories} />
           </Col>
         </Row>
-        {products && products.length !== 0 ? (
+        {products && products.length > 0 ? (
           <>
             <Row gutter={[16, 16]}>
               {products.map((product) => (
-                <Col span={4}>
+                <Col span={4} key={product.id}>
                   <Link to={`/products/${product.id}`}>
                     <CardComponent
                       cover={product.thumbnail || ""}
@@ -138,11 +144,17 @@ const Home: React.FC = () => {
                           onClick={(event) => {
                             handleEdit(event, product.id);
                           }}
+                          onKeyDown={(event) => {
+                            handleEdit(event, product.id);
+                          }}
                         >
                           <EditOutlined />
                         </div>,
                         <div
                           onClick={(event) => {
+                            handleDelete(event, product.id);
+                          }}
+                          onKeyDown={(event) => {
                             handleDelete(event, product.id);
                           }}
                         >

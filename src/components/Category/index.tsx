@@ -24,8 +24,12 @@ const CategoryComponent: React.FC<Props> = (props) => {
     <>
       {categories && (
         <Card title="หมวดหมู่">
-          {categories.map((category) => (
-            <Card.Grid style={gridStyle} onClick={() => handleClick(category)}>
+          {categories.map((category, index) => (
+            <Card.Grid
+              style={gridStyle}
+              onClick={() => handleClick(category)}
+              key={index}
+            >
               {category}
             </Card.Grid>
           ))}
