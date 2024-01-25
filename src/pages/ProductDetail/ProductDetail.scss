@@ -1,0 +1,110 @@
+.web-pages-productDetail-container {
+  background-color: white;
+
+  &-image {
+    padding: 15px;
+  }
+
+  &-detail {
+    padding: 1.25rem 2.1875rem 1.25rem 1.25rem;
+  }
+
+  &-description {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+}
+
+.web-pages-productDetail-title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  overflow-wrap: break-word;
+}
+
+.web-pages-productDetail-rating {
+  margin-top: 0.625rem;
+
+  span {
+    font-size: 1rem;
+  }
+
+  & > span {
+    color: #ee4d2d;
+    border-bottom: 1px solid #ee4d2d;
+    margin-right: 8px;
+  }
+}
+
+.web-pages-productDetail-price {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  background-color: #fafafa;
+  padding: 15px 20px;
+
+  &-before-discount {
+    color: #929292;
+    font-size: 1rem;
+    margin-right: 10px;
+    -webkit-text-decoration: line-through;
+    text-decoration: line-through;
+  }
+
+  &-after-discount {
+    color: #ee4d2d;
+    font-size: 1.875rem;
+    font-weight: 500;
+  }
+
+  &-discount {
+    background: #ee4d2d;
+    border-radius: 2px;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 15px;
+    padding: 2px 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+}
+
+.web-pages-productDetail-amount {
+  .ant-input-number-input {
+    text-align: center;
+  }
+}
+
+.web-pages-productDetail-button {
+  margin-top: 25px;
+
+  &-add {
+    padding: 0 20px;
+    height: 48px;
+    font-size: 1rem;
+    color: rgb(238, 77, 45);
+    border: 1px solid rgb(238, 77, 45);
+    border-radius: 0;
+    background-color: rgba(255, 87, 34, 0.1);
+  }
+
+  &-buy {
+    padding: 0 20px;
+    height: 48px;
+    font-size: 1rem;
+    color: white;
+    border-radius: 0;
+    background-color: rgb(238, 77, 45);
+  }
+
+  &-add.ant-btn-default:hover {
+    color: rgb(238, 77, 45) !important;
+    border-color: rgb(238, 77, 45) !important;
+  }
+
+  &-buy.ant-btn-default:hover {
+    color: white !important;
+    border-color: white !important;
+  }
+}
